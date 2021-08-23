@@ -97,7 +97,7 @@ public class KafkaConsumerController {
 						
 						DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
 						destinationList.add(destination);
-				}if(eachItem.getChange().equals(Source.DELIVERED)) {
+				}else if(eachItem.getChange().equals(Source.DELIVERED)) {
 						partNumber = eachItem.getPartNumber();
 						shortDescription = eachItem.getShortDescription();
 						extTaskId = orderItemExtendedAttribute.getAttributeValue();
