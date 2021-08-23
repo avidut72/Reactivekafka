@@ -69,7 +69,7 @@ public class KafkaConsumerController {
 			SourceMessage source = gson.fromJson(remote.value(), SourceMessage.class);
 			List<DestinationMessage> destinationList = new ArrayList<>();
 			for(Items eachItem : source.getQuote().getItem()) {
-				if(eachItem.getChange().equals(Source.DELETED)) {
+				if(eachItem.getChange().equals(Source.DELETED) || eachItem.getChange().equals(Source.DELIVERED) || eachItem.getChange().equals(Source.ORDERED) || eachItem.getChange().equals(Source.SHIPPED)){
 					partNumber = eachItem.getPartNumber();
 					shortDescription = eachItem.getShortDescription();
 					extTaskId = orderItemExtendedAttribute.getAttributeValue();
@@ -83,49 +83,7 @@ public class KafkaConsumerController {
 					
 					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
 					destinationList.add(destination);
-				}else if(eachItem.getChange().equals(Source.ORDERED)) {
-						partNumber = eachItem.getPartNumber();
-						shortDescription = eachItem.getShortDescription();
-						extTaskId = orderItemExtendedAttribute.getAttributeValue();
-						extTaskName = orderItemExtendedAttribute.getAttributeName();
-						extUserId = ;
-						extUserName=;
-						extLocationId=;
-						extLocationName=;
-						status=;
-						extAttributes=;
-						
-						DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
-						destinationList.add(destination);
-				}else if(eachItem.getChange().equals(Source.DELIVERED)) {
-						partNumber = eachItem.getPartNumber();
-						shortDescription = eachItem.getShortDescription();
-						extTaskId = orderItemExtendedAttribute.getAttributeValue();
-						extTaskName = orderItemExtendedAttribute.getAttributeName();
-						extUserId = ;
-						extUserName=;
-						extLocationId=;
-						extLocationName=;
-						status=;
-						extAttributes=;
-						
-						DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
-						destinationList.add(destination);
-				}else if(eachItem.getChange().equals(Source.SHIPPED)) {
-						partNumber = eachItem.getPartNumber();
-						shortDescription = eachItem.getShortDescription();
-						extTaskId = orderItemExtendedAttribute.getAttributeValue();
-						extTaskName = orderItemExtendedAttribute.getAttributeName();
-						extUserId = ;
-						extUserName=;
-						extLocationId=;
-						extLocationName=;
-						status=;
-						extAttributes=;
-						
-						DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
-						destinationList.add(destination);
-				}else {
+					}else {
 					System.out.println("Skipped...");				
 				}
 			}	
