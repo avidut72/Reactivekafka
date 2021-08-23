@@ -1,10 +1,10 @@
 package pojo.source;
 
-public class OrderItemAttribute {
+public class OrderItemExtendedAttribute {
 	 private String attributeValue;
 	 private String attributeName;
 	 
-	public OrderItemAttribute(String attributeValue, String attributeName) {
+	public OrderItemExtendedAttribute(String attributeValue, String attributeName) {
 		super();
 		this.attributeValue = attributeValue;
 		this.attributeName = attributeName;

@@ -1,6 +1,6 @@
 package pojo.source;
 
-public class Item {
+public class Items {
 	private String itemId;
     private String partNumber;
     private String lastUpdatedDate;
@@ -11,7 +11,7 @@ public class Item {
     public String getItemId() {
 		return itemId;
 	}
-	public Item(String itemId, String partNumber, String lastUpdatedDate, String shortDescription, String resourceId,
+	public Items(String itemId, String partNumber, String lastUpdatedDate, String shortDescription, String resourceId,
 			String change) {
 		super();
 		this.itemId = itemId;

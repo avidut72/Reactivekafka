@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DestinationMessage {
 	@JsonProperty("partNumber")
-	private int partNumber;
+	private String partNumber;
 	@JsonProperty("shortDescription")
     private String shortDescription;
 	@JsonProperty("extTaskId")
@@ -27,7 +27,7 @@ public class DestinationMessage {
 	private List<ExtAttributes> extAttributes;
     
    
-	public DestinationMessage(int partNumber, String shortDescription, String extTaskId, String extTaskName,
+	public DestinationMessage(String partNumber, String shortDescription, String extTaskId, String extTaskName,
 			String extUserId, String extUserName, String extLocationId, String extLocationName, String status,
 			List<ExtAttributes> extAttributes) {
 		super();
@@ -42,10 +42,10 @@ public class DestinationMessage {
 		this.status = status;
 		this.extAttributes = extAttributes;
 	}
-	public int getPartNumber() {
+	public String getPartNumber() {
 	    	return partNumber;
 	}
-	public void setPartNumber(int partNumber) {
+	public void setPartNumber(String partNumber) {
 		this.partNumber = partNumber;
 	}
 	public String getShortDescription() {

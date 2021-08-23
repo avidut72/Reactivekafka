@@ -8,18 +8,18 @@ public class Quote {
     private String name;
     private String productTotal;
     private String quoteNumber;
-    private List<Item> item = new ArrayList<Item>();
-    private List<OrderItemAttribute> orderItemAttribute = new ArrayList<OrderItemAttribute>();
+    private List<Items> items = new ArrayList<Items>();
+    private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();
     private List<OrderExtendAttribute> orderExtendAttribute = new ArrayList<OrderExtendAttribute>();
     
-    public Quote(String id, String name, String productTotal, String quoteNumber, List<Item> item,
-			List<OrderItemAttribute> orderItemAttribute, List<OrderExtendAttribute> orderExtendAttribute) {
+    public Quote(String id, String name, String productTotal, String quoteNumber, List<Items> items,
+			List<OrderItemExtendedAttribute> orderItemAttribute, List<OrderExtendAttribute> orderExtendAttribute) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.productTotal = productTotal;
 		this.quoteNumber = quoteNumber;
-		this.item = item;
+		this.items = items;
 		this.orderItemAttribute = orderItemAttribute;
 		this.orderExtendAttribute = orderExtendAttribute;
 		
@@ -48,16 +48,16 @@ public class Quote {
 	public void setQuoteNumber(String quoteNumber) {
 		this.quoteNumber = quoteNumber;
 	}
-	public List<Item> getItem() {
-		return item;
+	public List<Items> getItem() {
+		return items;
 	}
-	public void setItems(List<Item> item) {
-		this.item = item;
+	public void setItems(List<Items> items) {
+		this.items = items;
 	}
-	public List<OrderItemAttribute> getOrderItemAttribute() {
+	public List<OrderItemExtendedAttribute> getOrderItemAttribute() {
 		return orderItemAttribute;
 	}
-	public void setOrderItemAttribute(List<OrderItemAttribute> orderItemAttribute) {
+	public void setOrderItemAttribute(List<OrderItemExtendedAttribute> orderItemAttribute) {
 		this.orderItemAttribute = orderItemAttribute;
 	}
 	public List<OrderExtendAttribute> getOrderExtendAttribute() {
