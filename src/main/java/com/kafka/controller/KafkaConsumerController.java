@@ -49,7 +49,7 @@ public class KafkaConsumerController {
 	
 	@Autowired
 	private ModelMapper modelMapper;
-	OrderItemExtendedAttribute orderItemExtendedAttribute;
+	List<OrderItemExtendedAttribute> orderItemExtendedAttribute = new ArrayList<OrderItemExtendedAttribute>();
 	
 		@EventListener(ApplicationStartedEvent.class)
 /*		public void onMessage() {
@@ -72,6 +72,11 @@ public class KafkaConsumerController {
 				if(eachItem.getChange().equals(Source.DELETED) || eachItem.getChange().equals(Source.DELIVERED) || eachItem.getChange().equals(Source.ORDERED) || eachItem.getChange().equals(Source.SHIPPED)){
 					partNumber = eachItem.getPartNumber();
 					shortDescription = eachItem.getShortDescription();
+					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
+						extTaskId = eachAttribute.getAttributeValue() ;
+						extTaskName = eachAttribute.
+						
+					}
 					extTaskId = orderItemExtendedAttribute.getAttributeValue();
 					extTaskName = orderItemExtendedAttribute.getAttributeName();
 					extUserId = ;
@@ -87,6 +92,29 @@ public class KafkaConsumerController {
 					System.out.println("Skipped...");				
 				}
 			}	
+			for(Items orderItem : source.getOrder().getItems()) {
+				if(orderItem.getChange().equals(Source.DELIVERED) || orderItem.getChange().equals(Source.ORDERED) || orderItem.getChange().equals(Source.SHIPPED)) {
+					partNumber = orderItem.getPartNumber();
+					shortDescription = orderItem.getShortDescription();
+					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
+						extTaskId = eachAttribute.getAttributeValue() ;
+						extTaskName = eachAttribute.
+						}
+					extTaskId = orderItemExtendedAttribute.getAttributeValue();
+					extTaskName = orderItemExtendedAttribute.getAttributeName();
+					extUserId = ;
+					extUserName=;
+					extLocationId=;
+					extLocationName=;
+					status=;
+					extAttributes=;
+					
+					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
+					destinationList.add(destination);
+				}else {
+					System.out.println("Skipped...");
+				}
+			}
 			
 		}
 }

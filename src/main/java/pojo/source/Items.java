@@ -3,6 +3,7 @@ package pojo.source;
 public class Items {
 	private String itemId;
     private String partNumber;
+    private String productId;
     private String lastUpdatedDate;
     private String shortDescription;
     private String resourceId;
@@ -12,7 +13,7 @@ public class Items {
 		return itemId;
 	}
 	public Items(String itemId, String partNumber, String lastUpdatedDate, String shortDescription, String resourceId,
-			String change) {
+			String change, String productId) {
 		super();
 		this.itemId = itemId;
 		this.partNumber = partNumber;
@@ -20,6 +21,13 @@ public class Items {
 		this.shortDescription = shortDescription;
 		this.resourceId = resourceId;
 		this.change = change;
+		this.productId=productId;
+	}
+	public String getProductId() {
+		return productId;
+	}
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 	public void setItemId(String itemId) {
 		this.itemId = itemId;

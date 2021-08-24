@@ -10,9 +10,10 @@ public class SourceMessage {
     private OboUser oboUser;
     private Quote quote;
     private EventMetaData eventMetaData;
-    
-    public SourceMessage(String customer, String userId, String name, String email, String account, String bPID,
-			OboUser oboUser, Quote quote, EventMetaData eventMetaData) {
+    private Order order;
+   
+	public SourceMessage(String customer, String userId, String name, String email, String account, String bPID,
+			OboUser oboUser, Quote quote, Order order,EventMetaData eventMetaData) {
 		super();
 		this.customer = customer;
 		this.userId = userId;
@@ -77,6 +78,13 @@ public class SourceMessage {
 	}
 	public void setEventMetaData(EventMetaData eventMetaData) {
 		this.eventMetaData = eventMetaData;
+	}
+	 
+    public Order getOrder() {
+		return order;
+	}
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 	
 }
