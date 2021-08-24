@@ -3,8 +3,8 @@ package pojo.source;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SourceMessage {
-	@JsonProperty("customer")
-	private String customer;
+	@JsonProperty("loginId")
+	private String loginId;
 	@JsonProperty("userId")
     private String userId;
 	@JsonProperty("name")
@@ -20,10 +20,10 @@ public class SourceMessage {
     private EventMetaData eventMetaData;
     private Order order;
    
-	public SourceMessage(String customer, String userId, String name, String email, String account, String bPID,
+	public SourceMessage(String loginId, String userId, String name, String email, String account, String bPID,
 			OboUser oboUser, Quote quote, Order order,EventMetaData eventMetaData) {
 		super();
-		this.customer = customer;
+		this.loginId = loginId;
 		this.userId = userId;
 		this.name = name;
 		this.email = email;
@@ -33,11 +33,11 @@ public class SourceMessage {
 		this.quote = quote;
 		this.eventMetaData = eventMetaData;
 	}
-	public String getCustomer() {
-		return customer;
+	public String getLoginId() {
+		return loginId;
 	}
-	public void setCustomer(String customer) {
-		this.customer = customer;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 	public String getUserId() {
 		return userId;
