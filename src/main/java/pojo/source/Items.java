@@ -1,11 +1,19 @@
 package pojo.source;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Items {
+	@JsonProperty("itemId")
 	private String itemId;
+	@JsonProperty("partNumber")
     private String partNumber;
+	@JsonProperty("productId")
     private String productId;
+	@JsonProperty("lastUpdatedDate")
     private String lastUpdatedDate;
+	@JsonProperty("shortDescription")
     private String shortDescription;
+	@JsonProperty("resourceId")
     private String resourceId;
     private String change;
     

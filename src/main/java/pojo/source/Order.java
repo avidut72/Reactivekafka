@@ -3,12 +3,20 @@ package pojo.source;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Order {
+	@JsonProperty("id")
 	private String id;
+	@JsonProperty("name")
     private String name;
+	@JsonProperty("productTotal")
     private String productTotal;
+	@JsonProperty("orderNumber")
     private String orderNumber;
+	@JsonProperty("status")
     private String status;
+	@JsonProperty("productId")
     private String productId;
     private List<Items> items = new ArrayList<Items>();
     private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();

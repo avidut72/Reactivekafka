@@ -1,11 +1,19 @@
 package pojo.source;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class SourceMessage {
+	@JsonProperty("customer")
 	private String customer;
+	@JsonProperty("userId")
     private String userId;
+	@JsonProperty("name")
     private String name;
+	@JsonProperty("email")
     private String email;
+	@JsonProperty("account")
     private String account;
+	@JsonProperty("bPID")
     private String bPID;
     private OboUser oboUser;
     private Quote quote;

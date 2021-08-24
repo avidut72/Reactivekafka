@@ -1,7 +1,11 @@
 package pojo.source;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class OrderExtendAttribute {
+	@JsonProperty("attributeValue")
 	private String attributeValue;
+	@JsonProperty("attributeName")
     private String attributeName;
     
 	public OrderExtendAttribute(String attributeValue, String attributeName) {

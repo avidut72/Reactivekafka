@@ -45,6 +45,8 @@ public class KafkaConsumerController {
 	String extLocationId;
 	String extLocationName;
 	String status;
+	String key;
+	String value;
 	List<ExtAttributes> extAttributes;
 	
 	@Autowired
@@ -65,26 +67,35 @@ public class KafkaConsumerController {
 			.subscribe();
 		}
 
+		@SuppressWarnings("unlikely-arg-type")
 		private void messageparse(ReceiverRecord<String, String> remote) {
 			SourceMessage source = gson.fromJson(remote.value(), SourceMessage.class);
 			List<DestinationMessage> destinationList = new ArrayList<>();
 			for(Items eachItem : source.getQuote().getItem()) {
-				if(eachItem.getChange().equals(Source.DELETED) || eachItem.getChange().equals(Source.DELIVERED) || eachItem.getChange().equals(Source.ORDERED) || eachItem.getChange().equals(Source.SHIPPED)){
+				if(eachItem.getChange().equals(Source.DELETED)){
 					partNumber = eachItem.getPartNumber();
 					shortDescription = eachItem.getShortDescription();
 					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
-						extTaskId = eachAttribute.getAttributeValue() ;
-						extTaskName = eachAttribute.
+						if(eachAttribute.getAttributeName().equals("spTaskId"))
+							extTaskId = eachAttribute.getAttributeValue() ;
 						
-					}
-					extTaskId = orderItemExtendedAttribute.getAttributeValue();
-					extTaskName = orderItemExtendedAttribute.getAttributeName();
-					extUserId = ;
-					extUserName=;
-					extLocationId=;
-					extLocationName=;
-					status=;
-					extAttributes=;
+						if(eachAttribute.getAttributeName().equals("spTaskName"))
+							extTaskName = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spUserId"))
+							extUserId = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spUserName"))
+							extUserName = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spLocationId"))
+							extLocationId = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spLocationName"))
+							extLocationName = eachAttribute.getAttributeValue();
+						}
+					
+					status=eachItem.getChange();
 					
 					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
 					destinationList.add(destination);
@@ -97,17 +108,26 @@ public class KafkaConsumerController {
 					partNumber = orderItem.getPartNumber();
 					shortDescription = orderItem.getShortDescription();
 					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
-						extTaskId = eachAttribute.getAttributeValue() ;
-						extTaskName = eachAttribute.
-						}
-					extTaskId = orderItemExtendedAttribute.getAttributeValue();
-					extTaskName = orderItemExtendedAttribute.getAttributeName();
-					extUserId = ;
-					extUserName=;
-					extLocationId=;
-					extLocationName=;
-					status=;
-					extAttributes=;
+						if(eachAttribute.getAttributeName().equals("spTaskId"))
+							extTaskId = eachAttribute.getAttributeValue() ;
+						
+						if(eachAttribute.getAttributeName().equals("spTaskName"))
+							extTaskName = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spUserId"))
+							extUserId = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spUserName"))
+							extUserName = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spLocationId"))
+							extLocationId = eachAttribute.getAttributeValue();
+						
+						if(eachAttribute.getAttributeName().equals("spLocationName"))
+							extLocationName = eachAttribute.getAttributeValue();
+					}
+					status =orderItem.getChange();
+				//	extAttributes = ;
 					
 					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
 					destinationList.add(destination);

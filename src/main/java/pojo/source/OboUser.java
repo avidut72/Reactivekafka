@@ -1,8 +1,13 @@
 package pojo.source;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class OboUser {
+	@JsonProperty("loginId")
 	 private String loginId;
+	@JsonProperty("userId")
 	 private String userId;
+	@JsonProperty("userName")
 	 private String userName;
 	 public OboUser(String loginId, String userId, String userName) {
 		super();
