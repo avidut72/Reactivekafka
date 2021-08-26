@@ -14,11 +14,8 @@ public class Quote {
     private String productTotal;
 	@JsonProperty("quoteNumber")
     private String quoteNumber;
-	@JsonProperty("items")
     private List<Items> items = new ArrayList<Items>();
-	@JsonProperty("orderItemExtendedAttribute")
-    private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();
-	@JsonProperty("orderExtendedAttribute")
+//  private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();
     private List<OrderExtendAttribute> orderExtendAttribute = new ArrayList<OrderExtendAttribute>();
     
     public Quote(String id, String name, String productTotal, String quoteNumber, List<Items> items,
@@ -29,7 +26,7 @@ public class Quote {
 		this.productTotal = productTotal;
 		this.quoteNumber = quoteNumber;
 		this.items = items;
-		this.orderItemAttribute = orderItemAttribute;
+		//this.orderItemAttribute = orderItemAttribute;
 		this.orderExtendAttribute = orderExtendAttribute;
 		
 	}
@@ -63,12 +60,12 @@ public class Quote {
 	public void setItems(List<Items> items) {
 		this.items = items;
 	}
-	public List<OrderItemExtendedAttribute> getOrderItemAttribute() {
-		return orderItemAttribute;
-	}
-	public void setOrderItemAttribute(List<OrderItemExtendedAttribute> orderItemAttribute) {
-		this.orderItemAttribute = orderItemAttribute;
-	}
+//	public List<OrderItemExtendedAttribute> getOrderItemAttribute() {
+//		return orderItemAttribute;
+//	}
+//	public void setOrderItemAttribute(List<OrderItemExtendedAttribute> orderItemAttribute) {
+//		this.orderItemAttribute = orderItemAttribute;
+//	}
 	public List<OrderExtendAttribute> getOrderExtendAttribute() {
 		return orderExtendAttribute;
 	}

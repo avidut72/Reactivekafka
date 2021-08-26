@@ -75,7 +75,7 @@ public class KafkaConsumerController {
 				if(eachItem.getChange().equals(Source.DELETED)){
 					partNumber = eachItem.getPartNumber();
 					shortDescription = eachItem.getShortDescription();
-					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
+					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getItem()) {
 						if(eachAttribute.getAttributeName().equals("spTaskId"))
 							extTaskId = eachAttribute.getAttributeValue() ;
 						

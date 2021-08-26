@@ -19,10 +19,22 @@ public class Order {
 	@JsonProperty("productId")
     private String productId;
     private List<Items> items = new ArrayList<Items>();
-    private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();
+    //private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();
     private List<OrderExtendAttribute> orderExtendAttribute = new ArrayList<OrderExtendAttribute>();
     
-    public String getId() {
+    public Order(String id, String name, String productTotal, String orderNumber, String status, String productId,
+			List<Items> items, List<OrderExtendAttribute> orderExtendAttribute) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.productTotal = productTotal;
+		this.orderNumber = orderNumber;
+		this.status = status;
+		this.productId = productId;
+		this.items = items;
+		this.orderExtendAttribute = orderExtendAttribute;
+	}
+	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
@@ -64,12 +76,12 @@ public class Order {
 	public void setItems(List<Items> items) {
 		this.items = items;
 	}
-	public List<OrderItemExtendedAttribute> getOrderItemAttribute() {
-		return orderItemAttribute;
-	}
-	public void setOrderItemAttribute(List<OrderItemExtendedAttribute> orderItemAttribute) {
-		this.orderItemAttribute = orderItemAttribute;
-	}
+//	public List<OrderItemExtendedAttribute> getOrderItemAttribute() {
+//		return orderItemAttribute;
+//	}
+//	public void setOrderItemAttribute(List<OrderItemExtendedAttribute> orderItemAttribute) {
+//		this.orderItemAttribute = orderItemAttribute;
+//	}
 	public List<OrderExtendAttribute> getOrderExtendAttribute() {
 		return orderExtendAttribute;
 	}

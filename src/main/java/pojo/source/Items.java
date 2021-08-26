@@ -1,5 +1,8 @@
 package pojo.source;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Items {
@@ -15,21 +18,33 @@ public class Items {
     private String shortDescription;
 	@JsonProperty("resourceId")
     private String resourceId;
+	@JsonProperty("change")
     private String change;
+	@JsonProperty("status")
+	private String status;
+   
+	private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();
     
-    public String getItemId() {
-		return itemId;
-	}
-	public Items(String itemId, String partNumber, String lastUpdatedDate, String shortDescription, String resourceId,
-			String change, String productId) {
+  
+	public Items(String itemId, String partNumber, String productId, String lastUpdatedDate, String shortDescription,
+			String resourceId, String change, String status, List<OrderItemExtendedAttribute> orderItemAttribute) {
 		super();
 		this.itemId = itemId;
 		this.partNumber = partNumber;
+		this.productId = productId;
 		this.lastUpdatedDate = lastUpdatedDate;
 		this.shortDescription = shortDescription;
 		this.resourceId = resourceId;
 		this.change = change;
-		this.productId=productId;
+		this.orderItemAttribute = orderItemAttribute;
+		this.status=status;
+	}
+	
+	public String getItemId() {
+		return itemId;
+	}
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	public String getProductId() {
 		return productId;
@@ -37,9 +52,7 @@ public class Items {
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
+	
 	public String getPartNumber() {
 		return partNumber;
 	}
@@ -69,6 +82,19 @@ public class Items {
 	}
 	public void setChange(String change) {
 		this.change = change;
+	}
+	public List<OrderItemExtendedAttribute> getOrderItemAttribute() {
+		return orderItemAttribute;
+	}
+	public void setOrderItemAttribute(List<OrderItemExtendedAttribute> orderItemAttribute) {
+		this.orderItemAttribute = orderItemAttribute;
+	}
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }
