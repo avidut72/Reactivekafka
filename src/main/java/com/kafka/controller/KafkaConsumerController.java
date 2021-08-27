@@ -111,7 +111,7 @@ public class KafkaConsumerController {
 				if(orderItem.getChange().equals(Source.DELIVERED) || orderItem.getChange().equals(Source.ORDERED) || orderItem.getChange().equals(Source.SHIPPED)) {
 					partNumber = orderItem.getPartNumber();
 					shortDescription = orderItem.getShortDescription();
-					for(OrderItemExtendAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
+					for(OrderItemExtendAttribute eachAttribute:source.getOrder().getItems()) {
 						if(eachAttribute.getAttributeName().equals("spTaskId"))
 							extTaskId = eachAttribute.getAttributeValue() ;
 						

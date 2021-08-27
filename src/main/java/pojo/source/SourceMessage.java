@@ -10,6 +10,8 @@ public class SourceMessage {
 	private OboUser oboUser;
 	@JsonProperty("quote")
 	private Quote quote;
+	@JsonProperty("order")
+	private Order order;
 	@JsonProperty("eventMetaData")
 	private EventMetaData eventMetaData;
 
@@ -23,11 +25,12 @@ public class SourceMessage {
 	* @param oboUser
 	* @param customer
 	*/
-	public SourceMessage(Customer customer, OboUser oboUser, Quote quote, EventMetaData eventMetaData) {
+	public SourceMessage(Customer customer, OboUser oboUser, Quote quote, Order order, EventMetaData eventMetaData) {
 	super();
 	this.customer = customer;
 	this.oboUser = oboUser;
 	this.quote = quote;
+	this.order = order;
 	this.eventMetaData = eventMetaData;
 	}
 
@@ -68,6 +71,19 @@ public class SourceMessage {
 	public SourceMessage withQuote(Quote quote) {
 	this.quote = quote;
 	return this;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+	
+	public SourceMessage withOrder(Order order) {
+		this.order = order;
+		return this;
 	}
 
 	public EventMetaData getEventMetaData() {
