@@ -1,6 +1,5 @@
 package pojo.source;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,86 +8,143 @@ public class Items {
 	@JsonProperty("itemId")
 	private String itemId;
 	@JsonProperty("partNumber")
-    private String partNumber;
+	private String partNumber;
 	@JsonProperty("productId")
-    private String productId;
-	@JsonProperty("lastUpdatedDate")
-    private String lastUpdatedDate;
+	private String productId;
+	@JsonProperty("lastUpdateDate")
+	private String lastUpdateDate;
 	@JsonProperty("shortDescription")
-    private String shortDescription;
-	@JsonProperty("resourceId")
-    private String resourceId;
+	private String shortDescription;
+	@JsonProperty("resourecId")
+	private String resourecId;
 	@JsonProperty("change")
-    private String change;
-	@JsonProperty("status")
+	private String change;
+	@JsonProperty("orderItemExtendAttribute")
+	private List<OrderItemExtendAttribute> orderItemExtendAttribute = null;
 	private String status;
-   
-	private List<OrderItemExtendedAttribute> orderItemAttribute = new ArrayList<OrderItemExtendedAttribute>();
-    
-  
-	public Items(String itemId, String partNumber, String productId, String lastUpdatedDate, String shortDescription,
-			String resourceId, String change, String status, List<OrderItemExtendedAttribute> orderItemAttribute) {
-		super();
-		this.itemId = itemId;
-		this.partNumber = partNumber;
-		this.productId = productId;
-		this.lastUpdatedDate = lastUpdatedDate;
-		this.shortDescription = shortDescription;
-		this.resourceId = resourceId;
-		this.change = change;
-		this.orderItemAttribute = orderItemAttribute;
-		this.status=status;
+
+
+	/**
+	* No args constructor for use in serialization
+	*
+	*/
+	public Items() {
+	}
+
+	/**
+	*
+	* @param itemId
+	* @param lastUpdateDate
+	* @param orderItemAtttribute
+	* @param change
+	* @param partNumber
+	* @param shortDescription
+	* @param resourecId
+	*/
+	public Items(String itemId, String partNumber, String productId, String lastUpdateDate, String shortDescription, String resourecId, String change, String status, List<OrderItemExtendAttribute> orderItemExtendAttribute) {
+	super();
+	this.itemId = itemId;
+	this.partNumber = partNumber;
+	this.productId = productId;
+	this.lastUpdateDate = lastUpdateDate;
+	this.shortDescription = shortDescription;
+	this.resourecId = resourecId;
+	this.status = status;
+	this.change = change;
+	this.orderItemExtendAttribute = orderItemExtendAttribute;
+	}
+
+	public String getItemId() {
+	return itemId;
+	}
+
+	public void setItemId(String itemId) {
+	this.itemId = itemId;
+	}
+
+	public Items withItemId(String itemId) {
+	this.itemId = itemId;
+	return this;
+	}
+
+	public String getPartNumber() {
+	return partNumber;
+	}
+
+	public void setPartNumber(String partNumber) {
+	this.partNumber = partNumber;
+	}
+
+	public Items withPartNumber(String partNumber) {
+	this.partNumber = partNumber;
+	return this;
 	}
 	
-	public String getItemId() {
-		return itemId;
-	}
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
 	public String getProductId() {
 		return productId;
 	}
+
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	
-	public String getPartNumber() {
-		return partNumber;
+	public Items withProductId(String productId) {
+		this.productId = productId;
+		return this;
 	}
-	public void setPartNumber(String partNumber) {
-		this.partNumber = partNumber;
+
+	public String getLastUpdateDate() {
+	return lastUpdateDate;
 	}
-	public String getLastUpdatedDate() {
-		return lastUpdatedDate;
+
+	public void setLastUpdateDate(String lastUpdateDate) {
+	this.lastUpdateDate = lastUpdateDate;
 	}
-	public void setLastUpdatedDate(String lastUpdatedDate) {
-		this.lastUpdatedDate = lastUpdatedDate;
+
+	public Items withLastUpdateDate(String lastUpdateDate) {
+	this.lastUpdateDate = lastUpdateDate;
+	return this;
 	}
+
 	public String getShortDescription() {
-		return shortDescription;
+	return shortDescription;
 	}
+
 	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
+	this.shortDescription = shortDescription;
 	}
-	public String getResourceId() {
-		return resourceId;
+
+	public Items withShortDescription(String shortDescription) {
+	this.shortDescription = shortDescription;
+	return this;
 	}
-	public void setResourceId(String resourceId) {
-		this.resourceId = resourceId;
+
+	public String getResourecId() {
+	return resourecId;
 	}
+
+	public void setResourecId(String resourecId) {
+	this.resourecId = resourecId;
+	}
+
+	public Items withResourecId(String resourecId) {
+	this.resourecId = resourecId;
+	return this;
+	}
+
 	public String getChange() {
-		return change;
+	return change;
 	}
+
 	public void setChange(String change) {
-		this.change = change;
+	this.change = change;
 	}
-	public List<OrderItemExtendedAttribute> getOrderItemAttribute() {
-		return orderItemAttribute;
+
+	public Items withChange(String change) {
+	this.change = change;
+	return this;
 	}
-	public void setOrderItemAttribute(List<OrderItemExtendedAttribute> orderItemAttribute) {
-		this.orderItemAttribute = orderItemAttribute;
-	}
+	
 	public String getStatus() {
 		return status;
 	}
@@ -97,4 +153,23 @@ public class Items {
 		this.status = status;
 	}
 	
-}
+	public Items withStatus(String status) {
+		this.status=status;
+		return this;
+	}
+
+	public List<OrderItemExtendAttribute> getOrderItemExtendAttribute() {
+	return orderItemExtendAttribute;
+	}
+
+	public void setOrderItemExtendAttribute(List<OrderItemExtendAttribute> orderItemExtendAttribute) {
+	this.orderItemExtendAttribute = orderItemExtendAttribute;
+	}
+
+	public Items withOrderItemExtendAttribute(List<OrderItemExtendAttribute> orderItemExtendAttribute) {
+	this.orderItemExtendAttribute = orderItemExtendAttribute;
+	return this;
+	}
+	}
+	
+

@@ -2,7 +2,7 @@ package pojo.source;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OrderExtendAttribute {
+public class OrderItemExtendAttribute {
 	@JsonProperty("attributeValue")
 	private String attributeValue;
 	@JsonProperty("attributeName")
@@ -12,7 +12,7 @@ public class OrderExtendAttribute {
 	* No args constructor for use in serialization
 	*
 	*/
-	public OrderExtendAttribute() {
+	public OrderItemExtendAttribute() {
 	}
 
 	/**
@@ -20,7 +20,7 @@ public class OrderExtendAttribute {
 	* @param attributeValue
 	* @param attributeName
 	*/
-	public OrderExtendAttribute(String attributeValue, String attributeName) {
+	public OrderItemExtendAttribute(String attributeValue, String attributeName) {
 	super();
 	this.attributeValue = attributeValue;
 	this.attributeName = attributeName;
@@ -34,7 +34,7 @@ public class OrderExtendAttribute {
 	this.attributeValue = attributeValue;
 	}
 
-	public OrderExtendAttribute withAttributeValue(String attributeValue) {
+	public OrderItemExtendAttribute withAttributevalue(String attributeValue) {
 	this.attributeValue = attributeValue;
 	return this;
 	}
@@ -47,7 +47,7 @@ public class OrderExtendAttribute {
 	this.attributeName = attributeName;
 	}
 
-	public OrderExtendAttribute withAttributeName(String attributeName) {
+	public OrderItemExtendAttribute withAttributeName(String attributeName) {
 	this.attributeName = attributeName;
 	return this;
 	}

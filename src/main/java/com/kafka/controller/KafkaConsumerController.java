@@ -22,7 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import pojo.destination.DestinationMessage;
 import pojo.destination.ExtAttributes;
 import pojo.source.Items;
-import pojo.source.OrderItemExtendedAttribute;
+import pojo.source.OrderExtendAttribute;
+import pojo.source.OrderItemExtendAttribute;
 import pojo.source.SourceMessage;
 import reactor.core.publisher.Flux;
 import reactor.kafka.receiver.ReceiverRecord;
@@ -47,11 +48,10 @@ public class KafkaConsumerController {
 	String status;
 	String key;
 	String value;
-	List<ExtAttributes> extAttributes;
-	
+	ExtAttributes extAttributes;
 	@Autowired
 	private ModelMapper modelMapper;
-	List<OrderItemExtendedAttribute> orderItemExtendedAttribute = new ArrayList<OrderItemExtendedAttribute>();
+	List<OrderItemExtendAttribute> orderItemExtendedAttribute = new ArrayList<OrderItemExtendAttribute>();
 	
 		@EventListener(ApplicationStartedEvent.class)
 /*		public void onMessage() {
@@ -71,11 +71,13 @@ public class KafkaConsumerController {
 		private void messageparse(ReceiverRecord<String, String> remote) {
 			SourceMessage source = gson.fromJson(remote.value(), SourceMessage.class);
 			List<DestinationMessage> destinationList = new ArrayList<>();
-			for(Items eachItem : source.getQuote().getItem()) {
+			List<ExtAttributes> extList= new ArrayList<ExtAttributes>();
+			OrderExtendAttribute orderAttributes;
+			for(Items eachItem : source.getQuote().getItems()) {
 				if(eachItem.getChange().equals(Source.DELETED)){
 					partNumber = eachItem.getPartNumber();
 					shortDescription = eachItem.getShortDescription();
-					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getItem()) {
+					for(OrderItemExtendAttribute eachAttribute:source.getQuote().) {
 						if(eachAttribute.getAttributeName().equals("spTaskId"))
 							extTaskId = eachAttribute.getAttributeValue() ;
 						
@@ -96,8 +98,10 @@ public class KafkaConsumerController {
 						}
 					
 					status=eachItem.getChange();
-					
-					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
+					key= orderAttributes.getAttributeName();
+					value=orderAttributes.getAttributeValue();
+					ExtAttributes extAttributes= new ExtAttributes(key,value);
+					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription,extTaskId, extTaskName,extUserId,extUserName,extLocationId,extLocationName,status,(List<ExtAttributes>) extAttributes);
 					destinationList.add(destination);
 					}else {
 					System.out.println("Skipped...");				
@@ -107,7 +111,7 @@ public class KafkaConsumerController {
 				if(orderItem.getChange().equals(Source.DELIVERED) || orderItem.getChange().equals(Source.ORDERED) || orderItem.getChange().equals(Source.SHIPPED)) {
 					partNumber = orderItem.getPartNumber();
 					shortDescription = orderItem.getShortDescription();
-					for(OrderItemExtendedAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
+					for(OrderItemExtendAttribute eachAttribute:source.getQuote().getOrderItemAttribute()) {
 						if(eachAttribute.getAttributeName().equals("spTaskId"))
 							extTaskId = eachAttribute.getAttributeValue() ;
 						
