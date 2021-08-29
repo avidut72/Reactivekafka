@@ -1,7 +1,10 @@
 package com.kafka.controller;
 
+import static com.kafka.constants.ClientConstants.WEBCLIENT_URL;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -9,12 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.kafka.Source;
+import com.kafka.api.apiConnection;
+import com.kafka.controller.dto.DestinationMessageDto;
 import com.kafka.exception.GlobalException;
 
 import lombok.RequiredArgsConstructor;
@@ -35,22 +42,14 @@ public class KafkaConsumerController {
 	private static final Logger logger = LoggerFactory.getLogger(KafkaConsumerController.class);
 	private final Flux<ReceiverRecord<String, String>> reactiveKafkaReceiver=null;
 	private Gson gson = new GsonBuilder().create();
+	DestinationMessageDto messageDto;
+	DestinationMessage destination = new DestinationMessage();
+	apiConnection connect = new apiConnection();
 	
-	
-	String partNumber;
-	String shortDescription;
-	String extTaskId;
-	String extTaskName;
-	String extUserId;
-	String extUserName;
-	String extLocationId;
-	String extLocationName;
-	String status;
-	String key;
-	String value;
-	ExtAttributes extAttributes;
 	@Autowired
 	private ModelMapper modelMapper;
+	@Autowired
+	JsonObject jsonObject = new JsonObject();
 	List<OrderItemExtendAttribute> orderItemExtendedAttribute = new ArrayList<OrderItemExtendAttribute>();
 	
 		@EventListener(ApplicationStartedEvent.class)
@@ -67,78 +66,110 @@ public class KafkaConsumerController {
 			.subscribe();
 		}
 
-		@SuppressWarnings("unlikely-arg-type")
+		@SuppressWarnings({ "unlikely-arg-type", "null" })
 		private void messageparse(ReceiverRecord<String, String> remote) {
 			SourceMessage source = gson.fromJson(remote.value(), SourceMessage.class);
 			List<DestinationMessage> destinationList = new ArrayList<>();
-			List<ExtAttributes> extList= new ArrayList<ExtAttributes>();
-			OrderExtendAttribute orderAttributes;
+			//List<Map<String, String>> extList= (List<Map<String, String>>) new ExtAttributes();
+			OrderExtendAttribute orderAttributes = null;
 			for(Items eachItem : source.getQuote().getItems()) {
 				if(eachItem.getChange().equals(Source.DELETED)){
-					partNumber = eachItem.getPartNumber();
-					shortDescription = eachItem.getShortDescription();
-					for(OrderItemExtendAttribute eachAttribute:source.getQuote().) {
+					messageDto.setPartNumber(eachItem.getPartNumber());
+					messageDto.setShortDescription(eachItem.getShortDescription());
+					for(OrderItemExtendAttribute eachAttribute:eachItem.getOrderItemExtendAttribute()) {
+						
 						if(eachAttribute.getAttributeName().equals("spTaskId"))
-							extTaskId = eachAttribute.getAttributeValue() ;
+								messageDto.setExtTaskId(eachAttribute.getAttributeValue()); 
 						
-						if(eachAttribute.getAttributeName().equals("spTaskName"))
-							extTaskName = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spTaskName"))
+								messageDto.setExtTaskName(eachAttribute.getAttributeValue());
 						
-						if(eachAttribute.getAttributeName().equals("spUserId"))
-							extUserId = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spUserId"))
+								messageDto.setExtUserId(eachAttribute.getAttributeValue()); 
 						
-						if(eachAttribute.getAttributeName().equals("spUserName"))
-							extUserName = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spUserName"))
+								messageDto.setExtUserName(eachAttribute.getAttributeValue()); 
 						
-						if(eachAttribute.getAttributeName().equals("spLocationId"))
-							extLocationId = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spLocationId"))
+								messageDto.setExtLocationId(eachAttribute.getAttributeValue());
 						
-						if(eachAttribute.getAttributeName().equals("spLocationName"))
-							extLocationName = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spLocationName"))
+								messageDto.setExtLocationName(eachAttribute.getAttributeValue());
+						else{
+							logger.info("Error");
 						}
+					}
 					
-					status=eachItem.getChange();
-					key= orderAttributes.getAttributeName();
-					value=orderAttributes.getAttributeValue();
-					ExtAttributes extAttributes= new ExtAttributes(key,value);
-					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription,extTaskId, extTaskName,extUserId,extUserName,extLocationId,extLocationName,status,(List<ExtAttributes>) extAttributes);
-					destinationList.add(destination);
-					}else {
-					System.out.println("Skipped...");				
+					messageDto.setStatus(eachItem.getChange());
+					messageDto.setKey(orderAttributes.getAttributeValue());
+					messageDto.setValue(orderAttributes.getAttributeValue());
+					ExtAttributes extAttributes= new ExtAttributes(messageDto.getKey(),messageDto.getValue());
+					destination.setPartNumber(messageDto.getPartNumber());
+					destination.setShortDescription(messageDto.getShortDescription());
+					destination.setExtTaskName(messageDto.getExtTaskName());
+					destination.setExtTaskId(messageDto.getExtTaskId());
+					destination.setExtUserId(messageDto.getExtUserId());
+					destination.setExtUserName(messageDto.getExtUserName());
+					destination.setExtLocationId(messageDto.getExtLocationId());
+					destination.setExtLocationName(messageDto.getExtLocationName());
+					destination.setStatus(messageDto.getStatus());
+					List<ExtAttributes> extraAttribute = destination.getExtAttributes();
+					extraAttribute.add(extAttributes);
+					destination.setExtAttributes(extraAttribute);
+					destinationList.add(destination);			
 				}
 			}	
 			for(Items orderItem : source.getOrder().getItems()) {
-				if(orderItem.getChange().equals(Source.DELIVERED) || orderItem.getChange().equals(Source.ORDERED) || orderItem.getChange().equals(Source.SHIPPED)) {
-					partNumber = orderItem.getPartNumber();
-					shortDescription = orderItem.getShortDescription();
-					for(OrderItemExtendAttribute eachAttribute:source.getOrder().getItems()) {
+				if(orderItem.getStatus().equals(Source.DELIVERED) || orderItem.getChange().equals(Source.ORDERED) || orderItem.getChange().equals(Source.SHIPPED)) {
+					messageDto.setPartNumber(orderItem.getPartNumber());
+					messageDto.setShortDescription(orderItem.getShortDescription());
+					for(OrderItemExtendAttribute eachAttribute:orderItem.getOrderItemExtendAttribute()) {
+						
 						if(eachAttribute.getAttributeName().equals("spTaskId"))
-							extTaskId = eachAttribute.getAttributeValue() ;
+								messageDto.setExtTaskId(eachAttribute.getAttributeValue()); 
 						
-						if(eachAttribute.getAttributeName().equals("spTaskName"))
-							extTaskName = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spTaskName"))
+								messageDto.setExtTaskName(eachAttribute.getAttributeValue());
 						
-						if(eachAttribute.getAttributeName().equals("spUserId"))
-							extUserId = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spUserId"))
+								messageDto.setExtUserId(eachAttribute.getAttributeValue()); 
 						
-						if(eachAttribute.getAttributeName().equals("spUserName"))
-							extUserName = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spUserName"))
+								messageDto.setExtUserName(eachAttribute.getAttributeValue()); 
 						
-						if(eachAttribute.getAttributeName().equals("spLocationId"))
-							extLocationId = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spLocationId"))
+								messageDto.setExtLocationId(eachAttribute.getAttributeValue());
 						
-						if(eachAttribute.getAttributeName().equals("spLocationName"))
-							extLocationName = eachAttribute.getAttributeValue();
+						else if(eachAttribute.getAttributeName().equals("spLocationName"))
+								messageDto.setExtLocationName(eachAttribute.getAttributeValue());
+						
+						else {
+							logger.info("Error");
+						}
 					}
-					status =orderItem.getChange();
-				//	extAttributes = ;
 					
-					DestinationMessage destination = new DestinationMessage(partNumber, shortDescription, extTaskId, extTaskName, extUserId, extUserName, extLocationId, extLocationName, status, extAttributes);
-					destinationList.add(destination);
-				}else {
-					System.out.println("Skipped...");
+					messageDto.setStatus(orderItem.getStatus());
+					messageDto.setKey(orderAttributes.getAttributeValue());
+					messageDto.setValue(orderAttributes.getAttributeValue());
+					ExtAttributes extAttributes= new ExtAttributes(messageDto.getKey(),messageDto.getValue());
+					DestinationMessage destination = new DestinationMessage();
+					destination.setPartNumber(messageDto.getPartNumber());
+					destination.setShortDescription(messageDto.getShortDescription());
+					destination.setExtTaskName(messageDto.getExtTaskName());
+					destination.setExtTaskId(messageDto.getExtTaskId());
+					destination.setExtUserId(messageDto.getExtUserId());
+					destination.setExtUserName(messageDto.getExtUserName());
+					destination.setExtLocationId(messageDto.getExtLocationId());
+					destination.setExtLocationName(messageDto.getExtLocationName());
+					destination.setStatus(messageDto.getStatus());
+					List<ExtAttributes> extraAttribute = destination.getExtAttributes();
+					extraAttribute.add(extAttributes);
+					destination.setExtAttributes(extraAttribute);
+					destinationList.add(destination);			
 				}
 			}
 			
+			String response = connect.connection(WEBCLIENT_URL, destinationList, HttpMethod.POST);
+			System.out.println("response received"+response);
 		}
 }

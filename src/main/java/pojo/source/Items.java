@@ -41,17 +41,19 @@ public class Items {
 	* @param shortDescription
 	* @param resourecId
 	*/
-	public Items(String itemId, String partNumber, String productId, String lastUpdateDate, String shortDescription, String resourecId, String change, String status, List<OrderItemExtendAttribute> orderItemExtendAttribute) {
-	super();
-	this.itemId = itemId;
-	this.partNumber = partNumber;
-	this.productId = productId;
-	this.lastUpdateDate = lastUpdateDate;
-	this.shortDescription = shortDescription;
-	this.resourecId = resourecId;
-	this.status = status;
-	this.change = change;
-	this.orderItemExtendAttribute = orderItemExtendAttribute;
+
+	public Items(String itemId, String partNumber, String productId, String lastUpdateDate, String shortDescription,
+			String resourecId, String change, List<OrderItemExtendAttribute> orderItemExtendAttribute, String status) {
+		super();
+		this.itemId = itemId;
+		this.partNumber = partNumber;
+		this.productId = productId;
+		this.lastUpdateDate = lastUpdateDate;
+		this.shortDescription = shortDescription;
+		this.resourecId = resourecId;
+		this.change = change;
+		this.orderItemExtendAttribute = orderItemExtendAttribute;
+		this.status = status;
 	}
 
 	public String getItemId() {

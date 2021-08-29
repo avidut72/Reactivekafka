@@ -155,11 +155,11 @@ public class DestinationMessage {
 	return extLocationName;
 	}
 
-	public void setExtLocationNmae(String extLocationName) {
+	public void setExtLocationName(String extLocationName) {
 	this.extLocationName = extLocationName;
 	}
 
-	public DestinationMessage withExtLocationNmae(String extLocationName) {
+	public DestinationMessage withExtLocationName(String extLocationName) {
 	this.extLocationName = extLocationName;
 	return this;
 	}
