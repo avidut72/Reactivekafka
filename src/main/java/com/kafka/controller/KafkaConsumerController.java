@@ -4,7 +4,6 @@ import static com.kafka.constants.ClientConstants.WEBCLIENT_URL;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kafka.Source;
 import com.kafka.api.apiConnection;
@@ -45,6 +45,7 @@ public class KafkaConsumerController {
 	DestinationMessageDto messageDto;
 	DestinationMessage destination = new DestinationMessage();
 	apiConnection connect = new apiConnection();
+	JsonElement jsonElement;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -53,12 +54,6 @@ public class KafkaConsumerController {
 	List<OrderItemExtendAttribute> orderItemExtendedAttribute = new ArrayList<OrderItemExtendAttribute>();
 	
 		@EventListener(ApplicationStartedEvent.class)
-/*		public void onMessage() {
-			reactiveKafkaReceiver
-			.doOnNext(r->{if(r.)})
-			.doOnError(e->Log.error("KafkaFlux exception",e))
-			.subscribe();
-}*/
 		public void onMessage() {
 			reactiveKafkaReceiver
 			.doOnNext(r-> messageparse(r))
@@ -70,7 +65,6 @@ public class KafkaConsumerController {
 		private void messageparse(ReceiverRecord<String, String> remote) {
 			SourceMessage source = gson.fromJson(remote.value(), SourceMessage.class);
 			List<DestinationMessage> destinationList = new ArrayList<>();
-			//List<Map<String, String>> extList= (List<Map<String, String>>) new ExtAttributes();
 			OrderExtendAttribute orderAttributes = null;
 			for(Items eachItem : source.getQuote().getItems()) {
 				if(eachItem.getChange().equals(Source.DELETED)){
@@ -152,7 +146,6 @@ public class KafkaConsumerController {
 					messageDto.setKey(orderAttributes.getAttributeValue());
 					messageDto.setValue(orderAttributes.getAttributeValue());
 					ExtAttributes extAttributes= new ExtAttributes(messageDto.getKey(),messageDto.getValue());
-					DestinationMessage destination = new DestinationMessage();
 					destination.setPartNumber(messageDto.getPartNumber());
 					destination.setShortDescription(messageDto.getShortDescription());
 					destination.setExtTaskName(messageDto.getExtTaskName());
@@ -166,10 +159,11 @@ public class KafkaConsumerController {
 					extraAttribute.add(extAttributes);
 					destination.setExtAttributes(extraAttribute);
 					destinationList.add(destination);			
+					jsonElement = gson.toJsonTree(destinationList);
 				}
 			}
 			
-			String response = connect.connection(WEBCLIENT_URL, destinationList, HttpMethod.POST);
+			String response = connect.connection(WEBCLIENT_URL, jsonElement, HttpMethod.POST);
 			System.out.println("response received"+response);
 		}
 }
