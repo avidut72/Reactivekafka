@@ -40,7 +40,7 @@ import reactor.kafka.receiver.ReceiverRecord;
 @Slf4j
 public class KafkaConsumerController {
 	private static final Logger logger = LoggerFactory.getLogger(KafkaConsumerController.class);
-	private final Flux<ReceiverRecord<String, String>> reactiveKafkaReceiver=null;
+	private  Flux<ReceiverRecord<String, String>> reactiveKafkaReceiver;
 	private Gson gson = new GsonBuilder().create();
 	DestinationMessageDto messageDto;
 	DestinationMessage destination = new DestinationMessage();
@@ -50,16 +50,19 @@ public class KafkaConsumerController {
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	JsonObject jsonObject = new JsonObject();
+	JsonObject jsonObject;	
 	List<OrderItemExtendAttribute> orderItemExtendedAttribute = new ArrayList<OrderItemExtendAttribute>();
 	
 		@EventListener(ApplicationStartedEvent.class)
-		public void onMessage() {
-			reactiveKafkaReceiver
+		public void onMessage() throws NullPointerException {
+			try{reactiveKafkaReceiver
 			.doOnNext(r-> messageparse(r))
 			.doOnError(e-> new GlobalException("Kafka Flux exception"+ e.getMessage(),HttpStatus.BAD_REQUEST))
 			.subscribe();
+		}catch (NullPointerException e) {
+			logger.info("Exception Encountered",e);
 		}
+	}
 
 		@SuppressWarnings({ "unlikely-arg-type", "null" })
 		private void messageparse(ReceiverRecord<String, String> remote) {

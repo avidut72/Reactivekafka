@@ -18,9 +18,10 @@ public class apiConnection{
 	
 	WebClient client = WebClient.create(WEBCLIENT_URL);
 	Logger log;
+	JsonObject response;
 	public String connection(String url, Object body, HttpMethod httpMethod) {
 		
-		JsonObject response = null;
+		
 		if(httpMethod.equals(HttpMethod.POST)) {
 			response = client.post()
 							.uri(url)

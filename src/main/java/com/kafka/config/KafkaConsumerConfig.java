@@ -39,15 +39,20 @@ public class KafkaConsumerConfig {
 	    configuration.put(CustomDeserializer.CONFIG_VALUE_CLASS, SourceMessage.class.getName());
 	    return configuration;
 	    }
+	@Bean
+	public ReceiverOptions<?, ?> receiverOptions(ReceiverOptions<?, ?> receiver) {
+		return receiver;
+	}
 	
 	@Bean
-	ReceiverOptions<String, Object> kafkaReceiverOptions(@Value("${spring.kafka.consumer.topic}")String[] inTopicName){
+	private ReceiverOptions<String, Object> kafkaReceiverOptions(@Value("${spring.kafka.consumer.topic}")String[] inTopicName){
 		ReceiverOptions<String,Object> options= ReceiverOptions.create(kafkaConsumerConfiguration());
 		return options.subscription(Arrays.asList(inTopicName));
 //				.withKeyDeserializer(keyDeserializer)
 //				.withValueDeserializer(CustomDeserializer.CONFIG_VALUE_CLASS, SourceMessage.class.getName());
 		
 	}
+	
 	@Bean
 	Flux<ReceiverRecord<String, SourceMessage>> reactiveKafkaReceiver(ReceiverOptions<String,SourceMessage> kafkaReceiverOptions) {
         return KafkaReceiver.create(kafkaReceiverOptions).receive();

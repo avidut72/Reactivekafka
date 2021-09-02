@@ -1,11 +1,11 @@
-server:
- port: 9000
 spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
       group-id: third_app
-      topic: sample-topic
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      topic: sample-topic, sample-topic2
+    
+    
       
